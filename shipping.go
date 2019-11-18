@@ -2,14 +2,14 @@ package sgb
 
 import "encoding/json"
 
-type Shipping struct {
+type shipping struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
-func (s *sgb) GetShippingList() ([]*Shipping, error) {
+func (s *sgb) GetShippingList() ([]*shipping, error) {
 	const reqEntity = "shipping/method"
-	var shm []*Shipping
+	var shm []*shipping
 
 	req, err := s.httpGetBytes(reqEntity)
 	if err != nil {

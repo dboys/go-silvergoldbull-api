@@ -2,14 +2,14 @@ package sgb
 
 import "encoding/json"
 
-type Currency struct {
+type currency struct {
 	Name string `json:"name"`
 	ID   string `json:"id"`
 }
 
-func (s *sgb) GetCurrencyList() ([]*Currency, error) {
+func (s *sgb) GetCurrencyList() ([]*currency, error) {
 	const reqEntity = "currencies"
-	var currList []*Currency
+	var currList []*currency
 
 	req, err := s.httpGetBytes(reqEntity)
 	if err != nil {

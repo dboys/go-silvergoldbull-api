@@ -1,6 +1,7 @@
 package sgb
 
 import (
+	"bytes"
 	"encoding/json"
 	"path/filepath"
 	"strconv"
@@ -21,7 +22,7 @@ type Address struct {
 	Company   string `json:"company"`
 }
 
-type Item struct {
+type item struct {
 	ID        string  `json:"id"`
 	QTY       int     `json:"qty"`
 	Name      string  `json:"name"`
@@ -29,28 +30,44 @@ type Item struct {
 	TaxAmount float32 `json:"tax_amount"`
 }
 
-type Order struct {
+type order struct {
 	ID         string      `json:"id"`
 	Currency   string      `json:"currency"`
-	Link       *Link       `json:"links"`
+	Link       *link       `json:"links"`
 	Status     string      `json:"status"`
-	CreatedAt  CreatedDate `json:"created_at"`
+	CreatedAt  createdDate `json:"created_at"`
 	Total      float32     `json:"grand_total"`
 	TaxAmount  float32     `json:"tax_amount"`
 	ShipAmount float32     `json:"shipping_amount"`
 	ShipMethod string      `json:"shipping_method"`
-	Items      []*Item     `json:"items"`
+	Items      []*item     `json:"items"`
 	Shipping   *Address    `json:"shipping"`
 	Billing    *Address    `json:"billing"`
 }
 
-type CreatedDate struct {
+type QuoteItem struct {
+	ID       string  `json:"id"`
+	QTY      int     `json:"qty"`
+	BidPrice float32 `json:"bid_price"`
+}
+
+type Quote struct {
+	Currency      string       `json:"currency"`
+	PaymentMethod string       `json:"payment_method"`
+	ShipMethod    string       `json:"shipping_method"`
+	Declaration   string       `json:"declaration"`
+	Items         []*QuoteItem `json:"items"`
+	Shipping      *Address     `json:"shipping"`
+	Billing       *Address     `json:"billing"`
+}
+
+type createdDate struct {
 	time.Time
 }
 
 const _orderEntity = "orders"
 
-func (cd *CreatedDate) UnmarshalJSON(input []byte) error {
+func (cd *createdDate) UnmarshalJSON(input []byte) error {
 	str := string(input)
 	str = strings.Trim(str, `"`)
 	newTime, err := time.Parse("2006-01-02 15:04:05", str)
@@ -62,8 +79,8 @@ func (cd *CreatedDate) UnmarshalJSON(input []byte) error {
 	return nil
 }
 
-func (s *sgb) GetOrderList() ([]*Order, error) {
-	var o []*Order
+func (s *sgb) GetOrderList() ([]*order, error) {
+	var o []*order
 
 	req, err := s.httpGetBytes(_orderEntity)
 	if err != nil {
@@ -77,9 +94,9 @@ func (s *sgb) GetOrderList() ([]*Order, error) {
 	return o, err
 }
 
-func (s *sgb) GetOrder(id int) (*Order, error) {
+func (s *sgb) GetOrder(id int) (*order, error) {
 	var reqEntity = filepath.Join(_orderEntity, strconv.Itoa(id))
-	var o *Order
+	var o *order
 
 	req, err := s.httpGetBytes(reqEntity)
 	if err != nil {
@@ -92,3 +109,21 @@ func (s *sgb) GetOrder(id int) (*Order, error) {
 
 	return o, err
 }
+
+func (s *sgb) Quote(q *Quote) ([]byte, error) {
+	var reqEntity = filepath.Join(_orderEntity, "quote")
+
+	buf := new(bytes.Buffer)
+	json.NewEncoder(buf).Encode(q)
+
+	req, err := s.httpPostBytes(reqEntity, buf)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// func (s *sgb) CreateOrder() error {
+
+// }

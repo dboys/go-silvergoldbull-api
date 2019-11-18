@@ -6,26 +6,26 @@ import (
 	"strconv"
 )
 
-type Link struct {
+type link struct {
 	Self *struct {
 		URL string `json:"href"`
 	}
 }
 
-type Tier struct {
+type tier struct {
 	QTY   int     `json:"qty"`
 	Price float32 `json:"price"`
 }
 
-type Price struct {
+type price struct {
 	To           float32 `json:"to"`
 	From         float32 `json:"from"`
 	CashDiscount bool    `json:"cash_discount"`
 	Currency     string  `json:"currency`
-	Tiers        []*Tier `json:"tiers"`
+	Tiers        []*tier `json:"tiers"`
 }
 
-type Tax struct {
+type tax struct {
 	Name     string  `json:"name"`
 	Percent  float32 `json:"percent"`
 	Region   string  `json:"region"`
@@ -33,11 +33,11 @@ type Tax struct {
 	TaxClass int     `json:"customer_tax_class_id"`
 }
 
-type Product struct {
+type product struct {
 	Name         string  `json:"name"`
 	ID           string  `json:"id"`
 	InStock      bool    `json:"in_stock"`
-	Link         *Link   `json:"links"`
+	Link         *link   `json:"links"`
 	Description  string  `json:"description"`
 	DaysSinceNew int     `json:"days_since_new"`
 	URL          string  `json:"url"`
@@ -54,14 +54,14 @@ type Product struct {
 	TotalWeight  float32 `json:"total_weight_troy_oz"`
 	Manufacturer string  `json:"manufacturer"`
 	Tender       string  `json:"legal_tender"`
-	Price        *Price  `json:"prices"`
-	Tax          []*Tax  `json:"tax"`
+	Price        *price  `json:"prices"`
+	Tax          []*tax  `json:"tax"`
 }
 
 const _productEntity = "products"
 
-func (s *sgb) GetProductList() ([]*Product, error) {
-	var p []*Product
+func (s *sgb) GetProductList() ([]*product, error) {
+	var p []*product
 
 	req, err := s.httpGetBytes(_productEntity)
 	if err != nil {
@@ -75,9 +75,9 @@ func (s *sgb) GetProductList() ([]*Product, error) {
 	return p, err
 }
 
-func (s *sgb) GetProduct(id int) (*Product, error) {
+func (s *sgb) GetProduct(id int) (*product, error) {
 	var reqEntity = filepath.Join(_productEntity, strconv.Itoa(id))
-	var p *Product
+	var p *product
 
 	req, err := s.httpGetBytes(reqEntity)
 	if err != nil {

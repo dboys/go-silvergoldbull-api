@@ -1,6 +1,7 @@
 package sgb
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -51,15 +52,11 @@ func New(key string, opts ...option) *sgb {
 	return &sgb{key, options}
 }
 
-func (s *sgb) httpGetBytes(entity string) ([]byte, error) {
-	const (
-		_authField = "X-API-KEY"
-		_reqMethod = "GET"
-	)
+func (s *sgb) request(method, uri string, params *bytes.Buffer) ([]byte, error) {
+	const _authField = "X-API-KEY"
 
-	url := s.uri + entity
 	client := &http.Client{Timeout: s.timeout}
-	req, err := http.NewRequest(_reqMethod, url, nil)
+	req, err := http.NewRequest(method, uri, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -69,6 +66,8 @@ func (s *sgb) httpGetBytes(entity string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Printf("%s", resp.Body)
 
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
@@ -81,4 +80,14 @@ func (s *sgb) httpGetBytes(entity string) ([]byte, error) {
 	}
 
 	return body, nil
+}
+
+func (s *sgb) httpGetBytes(entity string) ([]byte, error) {
+	const _reqMethod = "GET"
+	return s.request(_reqMethod, s.uri+entity, nil)
+}
+
+func (s *sgb) httpPostBytes(entity string, params *bytes.Buffer) ([]byte, error) {
+	const _reqMethod = "POST"
+	return s.request(_reqMethod, s.uri+entity, params)
 }

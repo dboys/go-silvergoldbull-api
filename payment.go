@@ -2,7 +2,7 @@ package sgb
 
 import "encoding/json"
 
-type Payment struct {
+type payment struct {
 	ID           string   `json:"id"`
 	Name         string   `json:"name"`
 	OrderMax     int      `json:"order_maximum"`
@@ -11,9 +11,9 @@ type Payment struct {
 	Country      []string `json:"country"`
 }
 
-func (s *sgb) GetPaymentList() ([]*Payment, error) {
+func (s *sgb) GetPaymentList() ([]*payment, error) {
 	const reqEntity = "payments/method"
-	var pm []*Payment
+	var pm []*payment
 
 	req, err := s.httpGetBytes(reqEntity)
 	if err != nil {
