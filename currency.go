@@ -11,7 +11,7 @@ func (s *sgb) GetCurrencyList() ([]*Currency, error) {
 	const reqEntity = "currencies"
 	var currList []*Currency
 
-	req, err := s.request(getMethod, reqEntity)
+	req, err := s.httpGetBytes(reqEntity)
 	if err != nil {
 		return nil, err
 	}

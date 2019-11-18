@@ -65,7 +65,7 @@ func (cd *CreatedDate) UnmarshalJSON(input []byte) error {
 func (s *sgb) GetOrderList() ([]*Order, error) {
 	var o []*Order
 
-	req, err := s.request(getMethod, _orderEntity)
+	req, err := s.httpGetBytes(_orderEntity)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +81,7 @@ func (s *sgb) GetOrder(id int) (*Order, error) {
 	var reqEntity = filepath.Join(_orderEntity, strconv.Itoa(id))
 	var o *Order
 
-	req, err := s.request(getMethod, reqEntity)
+	req, err := s.httpGetBytes(reqEntity)
 	if err != nil {
 		return nil, err
 	}

@@ -11,7 +11,7 @@ func (s *sgb) GetShippingList() ([]*Shipping, error) {
 	const reqEntity = "shipping/method"
 	var shm []*Shipping
 
-	req, err := s.request(getMethod, reqEntity)
+	req, err := s.httpGetBytes(reqEntity)
 	if err != nil {
 		return nil, err
 	}

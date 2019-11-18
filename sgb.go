@@ -23,11 +23,6 @@ type option interface {
 
 type optionFunc func(*options)
 
-const (
-	getMethod  = "GET"
-	postMethod = "POST"
-)
-
 func (f optionFunc) apply(o *options) {
 	f(o)
 }
@@ -56,12 +51,15 @@ func New(key string, opts ...option) *sgb {
 	return &sgb{key, options}
 }
 
-func (s *sgb) request(reqMethod, entity string) ([]byte, error) {
-	const _authField = "X-API-KEY"
+func (s *sgb) httpGetBytes(entity string) ([]byte, error) {
+	const (
+		_authField = "X-API-KEY"
+		_reqMethod = "GET"
+	)
 
 	url := s.uri + entity
 	client := &http.Client{Timeout: s.timeout}
-	req, err := http.NewRequest(reqMethod, url, nil)
+	req, err := http.NewRequest(_reqMethod, url, nil)
 	if err != nil {
 		return nil, err
 	}

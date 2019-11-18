@@ -15,7 +15,7 @@ func (s *sgb) GetPaymentList() ([]*Payment, error) {
 	const reqEntity = "payments/method"
 	var pm []*Payment
 
-	req, err := s.request(getMethod, reqEntity)
+	req, err := s.httpGetBytes(reqEntity)
 	if err != nil {
 		return nil, err
 	}

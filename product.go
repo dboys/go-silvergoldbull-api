@@ -25,6 +25,14 @@ type Price struct {
 	Tiers        []*Tier `json:"tiers"`
 }
 
+type Tax struct {
+	Name     string  `json:"name"`
+	Percent  float32 `json:"percent"`
+	Region   string  `json:"region"`
+	priority int     `json:"priority"`
+	TaxClass int     `json:"customer_tax_class_id"`
+}
+
 type Product struct {
 	Name         string  `json:"name"`
 	ID           string  `json:"id"`
@@ -47,6 +55,7 @@ type Product struct {
 	Manufacturer string  `json:"manufacturer"`
 	Tender       string  `json:"legal_tender"`
 	Price        *Price  `json:"prices"`
+	Tax          []*Tax  `json:"tax"`
 }
 
 const _productEntity = "products"
@@ -54,7 +63,7 @@ const _productEntity = "products"
 func (s *sgb) GetProductList() ([]*Product, error) {
 	var p []*Product
 
-	req, err := s.request(getMethod, _productEntity)
+	req, err := s.httpGetBytes(_productEntity)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +79,7 @@ func (s *sgb) GetProduct(id int) (*Product, error) {
 	var reqEntity = filepath.Join(_productEntity, strconv.Itoa(id))
 	var p *Product
 
-	req, err := s.request(getMethod, reqEntity)
+	req, err := s.httpGetBytes(reqEntity)
 	if err != nil {
 		return nil, err
 	}
