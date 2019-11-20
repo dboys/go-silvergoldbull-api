@@ -45,20 +45,30 @@ type order struct {
 	Billing    *Address    `json:"billing"`
 }
 
-type QuoteItem struct {
+type Item struct {
 	ID       string  `json:"id"`
 	QTY      int     `json:"qty"`
 	BidPrice float32 `json:"bid_price"`
 }
 
 type Quote struct {
-	Currency      string       `json:"currency"`
-	PaymentMethod string       `json:"payment_method"`
-	ShipMethod    string       `json:"shipping_method"`
-	Declaration   string       `json:"declaration"`
-	Items         []*QuoteItem `json:"items"`
-	Shipping      *Address     `json:"shipping"`
-	Billing       *Address     `json:"billing"`
+	Currency      string   `json:"currency"`
+	PaymentMethod string   `json:"payment_method"`
+	ShipMethod    string   `json:"shipping_method"`
+	Declaration   string   `json:"declaration"`
+	Items         []*Item  `json:"items"`
+	Shipping      *Address `json:"shipping"`
+	Billing       *Address `json:"billing"`
+}
+
+type Order struct {
+	Currency      string   `json:"currency"`
+	PaymentMethod string   `json:"payment_method"`
+	ShipMethod    string   `json:"shipping_method"`
+	Declaration   string   `json:"declaration"`
+	Items         []*Item  `json:"items"`
+	Shipping      *Address `json:"shipping"`
+	Billing       *Address `json:"billing"`
 }
 
 type createdDate struct {
@@ -124,6 +134,16 @@ func (s *sgb) Quote(q *Quote) ([]byte, error) {
 	return req, nil
 }
 
-// func (s *sgb) CreateOrder() error {
+func (s *sgb) CreateOrder(o *Order) ([]byte, error) {
+	var reqEntity = filepath.Join(_orderEntity, "create")
 
-// }
+	buf := new(bytes.Buffer)
+	json.NewEncoder(buf).Encode(o)
+
+	req, err := s.httpPostBytes(reqEntity, buf)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
