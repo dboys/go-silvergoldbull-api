@@ -11,6 +11,13 @@ To install this module, run the following commands:
 
 	$ go get github.com/dboys/go-silvergoldbull-api
 
+# TESTING
+
+To test this module, run the following commands:
+
+	$ export SILVERGOLDBULL_API_KEY=<API key>
+	$ go test -v
+
 # SYNOPSIS
 ```go
 import sgb "github.com/dboys/go-silvergoldbull-api"

@@ -45,7 +45,7 @@ type product struct {
 	Material     string  `json:"material"`
 	Weigth       int     `json:"metal_weight_troy_oz"`
 	Image        string  `json:"image"`
-	Mintage      string  `json:"mintage"`
+	Mintage      float32 `json:"mintage"`
 	QTY          int     `json:"qty"`
 	Purity       string  `json:"purity"`
 	Shape        string  `json:"shape"`
