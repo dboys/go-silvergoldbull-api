@@ -1,3 +1,9 @@
+[![](https://badges.fyi/static/godoc/reference/5272B4)](https://godoc.org/github.com/dboys/go-silvergoldbull-api)
+[![Go Report Card](https://goreportcard.com/badge/github.com/dboys/go-silvergoldbull-api)](https://goreportcard.com/report/github.com/dboys/go-silvergoldbull-api)
+![](https://badges.fyi/github/license/dboys/go-silvergoldbull-api)
+![](https://badges.fyi/github/latest-tag/dboys/go-silvergoldbull-api)
+[![](https://travis-ci.org/dboys/go-silvergoldbull-api.svg?branch=master)](https://travis-ci.org/dboys/go-silvergoldbull-api)
+
 # go-silvergoldbull-api
 Golang client for Silver Gold Bull web service
 

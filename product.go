@@ -21,7 +21,7 @@ type price struct {
 	To           float32 `json:"to"`
 	From         float32 `json:"from"`
 	CashDiscount bool    `json:"cash_discount"`
-	Currency     string  `json:"currency`
+	Currency     string  `json:"currency"`
 	Tiers        []*tier `json:"tiers"`
 }
 
@@ -29,7 +29,7 @@ type tax struct {
 	Name     string  `json:"name"`
 	Percent  float32 `json:"percent"`
 	Region   string  `json:"region"`
-	priority int     `json:"priority"`
+	Priority int     `json:"priority"`
 	TaxClass int     `json:"customer_tax_class_id"`
 }
 
