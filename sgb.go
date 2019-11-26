@@ -67,8 +67,6 @@ func (s *sgb) request(method, uri string, params *bytes.Buffer) ([]byte, error) 
 		return nil, err
 	}
 
-	fmt.Printf("%s", resp.Body)
-
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("Request error: %s", resp.Status)
