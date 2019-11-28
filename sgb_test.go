@@ -122,3 +122,64 @@ func TestGetMethods(t *testing.T) {
 		runGetTests(t, tests)
 	}
 }
+
+func TestCreateMethods(t *testing.T) {
+	apiKey := os.Getenv("SILVERGOLDBULL_API_KEY")
+
+	if len(apiKey) > 0 {
+		client := New(apiKey)
+
+		addr := &Address{
+			Email: "sales@silvergoldbull.com",
+			Postcode: "T2P 	5C5",
+			Region:    "AB",
+			City:      "Calgary",
+			FirstName: "John",
+			LastName:  "Smith",
+			Country:   "CA",
+			Street:    "888 - 3 ST SW, 10 FLOOR - WEST TOWER",
+			Phone:     "+1 (403) 668 8648",
+		}
+		items := []*Item{
+			{
+				ID:       "2706",
+				QTY:      1,
+				BidPrice: 468.37,
+			},
+			{
+				ID:       "2580",
+				QTY:      1,
+				BidPrice: 2,
+			},
+		}
+		quote := &Quote{
+			Currency:      "USD",
+			PaymentMethod: "paypall",
+			ShipMethod:    "1YR_STORAGE",
+			Declaration:   "TEST",
+			Items:         items,
+			Shipping:      addr,
+			Billing:       addr,
+		}
+
+		_, err := client.Quote(quote)
+		if err == nil {
+			t.Errorf("Quote(%v) return result with wrong data", quote)
+		}
+
+		order := &Order{
+			Currency:      "USD",
+			PaymentMethod: "paypall",
+			ShipMethod:    "1YR_STORAGE",
+			Declaration:   "TEST",
+			Items:         items,
+			Shipping:      addr,
+			Billing:       addr,
+		}
+
+		_, err = client.CreateOrder(order)
+		if err == nil {
+			t.Errorf("CreateOrder(%v) return result with wrong data", order)
+		}
+	}
+}
