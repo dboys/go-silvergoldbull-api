@@ -28,12 +28,14 @@ func (f optionFunc) apply(o *options) {
 	f(o)
 }
 
+// WithTimeout sets timeout for request
 func WithTimeout(t time.Duration) option {
 	return optionFunc(func(o *options) {
 		o.timeout = t
 	})
 }
 
+// New creates client instance
 func New(key string, opts ...option) *sgb {
 	const (
 		_defaultTimeout = 200 * time.Second

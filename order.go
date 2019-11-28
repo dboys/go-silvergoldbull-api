@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+// Address struct represents all possible address fields
+// Using for Shipping and Billing fields on Quote and/or Order structures
 type Address struct {
 	Region    string `json:"region"`
 	Email     string `json:"email"`
@@ -45,12 +47,16 @@ type order struct {
 	Billing    *Address    `json:"billing"`
 }
 
+// Item struct represents all possible item fields
+// Using for Items field on Quote and/or Order structures
 type Item struct {
 	ID       string  `json:"id"`
 	QTY      int     `json:"qty"`
 	BidPrice float32 `json:"bid_price"`
 }
 
+// Quote struct represents all possible fields for quote
+// Using as input parameter for Quote method
 type Quote struct {
 	Currency      string   `json:"currency"`
 	PaymentMethod string   `json:"payment_method"`
@@ -61,6 +67,8 @@ type Quote struct {
 	Billing       *Address `json:"billing"`
 }
 
+// Order struct represents all possible fields for order
+// Using as input parameter for CreateOrder method
 type Order struct {
 	Currency      string   `json:"currency"`
 	PaymentMethod string   `json:"payment_method"`
